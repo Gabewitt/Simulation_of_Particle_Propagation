@@ -22,3 +22,8 @@ python3 main.py
 
 Once file created in the data folder, open the html file in your local browser or double click it. And be amazed by the results! 
 
+If you want to save the UML Diagram, run
+
+```
+plantuml -tpng diagram.puml
+```
