@@ -1,0 +1,34 @@
+Simulation Summary - 2025-05-19_18-35
+
+Material:
+  Name: Water
+  Cross Section: 10.0 cm^-1
+  Density: 1000.0 g/cm^3
+  Absorption Probability: 0.05
+  Mass Number: 18
+
+Particle:
+  Mass: 1.675e-27 kg
+  Charge: 0
+  Initial Velocity: [2691.712511539098, 0, 0]
+  Initial Energy: 0.0379 eV
+
+Simulation:
+  Mode: thermal_only
+  Temperature: 293 K
+  Time Step: 1e-10 s
+  Max Steps: 1000
+  x_start: -10.0 cm
+  x_entry: 0.0 cm
+
+Flags:
+  One_Directional_Propagation: False
+  Fast_Ballistic_Propagation: False
+  min_cos_theta: 0.5
+
+Outputs:
+  CSV File: Propagation_Data/Water_neutron_thermal_only_2025-05-19_18-35/Water_neutron_thermal_only_2025-05-19_18-35.csv
+  Interactive HTML: Propagation_Data/Water_neutron_thermal_only_2025-05-19_18-35/Water_neutron_thermal_only_2025-05-19_18-35.html
+
+Thermalization: neutron did NOT thermalize within the simulation domain.
+Absorption: neutron exited the material without being absorbed.

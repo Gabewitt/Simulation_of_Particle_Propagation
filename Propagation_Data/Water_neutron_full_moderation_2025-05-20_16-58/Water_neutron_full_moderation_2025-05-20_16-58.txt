@@ -1,0 +1,34 @@
+Simulation Summary - 2025-05-20_16-58
+
+Material:
+  Name: Water
+  Cross Section: 10.0 cm^-1
+  Density: 1000.0 g/cm^3
+  Absorption Probability: 0.0015
+  Mass Number: 18
+
+Particle:
+  Mass: 1.675e-27 kg
+  Charge: 0
+  Initial Velocity: [500000.0, 0.0, 0.0]
+  Initial Energy: 0.0358 eV
+
+Simulation:
+  Mode: full_moderation
+  Temperature: 293 K
+  Time Step: 1e-10 s
+  Max Steps: 1000
+  x_start: -10.0 cm
+  x_entry: 0.0 cm
+
+Flags:
+  One_Directional_Propagation: False
+  Fast_Ballistic_Propagation: True
+  min_cos_theta: 0.5
+
+Outputs:
+  CSV File: Propagation_Data/Water_neutron_full_moderation_2025-05-20_16-58/Water_neutron_full_moderation_2025-05-20_16-58.csv
+  Interactive HTML: Propagation_Data/Water_neutron_full_moderation_2025-05-20_16-58/Water_neutron_full_moderation_2025-05-20_16-58.html
+
+Thermalization: neutron reached thermal energy at x = 289.029 m.
+Absorption: neutron was absorbed at x = 289.144 m.

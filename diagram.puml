@@ -1,0 +1,183 @@
+@startuml SimulationDiagram
+
+' ' your config file as an artifact
+' artifact "simulation_config.yaml" <<artifact>> as simulation_config
+
+package "constants.py" as constants_py {
+  class Material {
+    - name: String
+    - cross_section: float
+    - density: float
+    - length_x: float
+    - absorption_probability: float
+    - mass_number: float
+    - energy_loss_factor: float
+    - reference_energy_ev: float
+    + mean_free_path(energy_ev: float): float
+  }
+
+  class Particle {
+    - name: String
+    - mass: float
+    - charge: int
+    - initial_velocity: List<float>
+    - energy: float
+    - energy_ev: float
+    + is_thermal(temperature: float): bool
+    + set_thermal_velocity(temperature: float): void
+  }
+}
+
+package "properties.py" as properties_py {
+  object Water
+  ' object Graphite
+  ' object Lead
+  ' object Air
+  ' object Borated_Polyethylene
+  ' object LightWater
+  ' object ControlRod
+  object neutron
+
+  class Properties {
+    + get_predefined_material(name: String): Material
+  }
+}
+
+package "calculations.py" as calculations_py {
+  class Calculations {
+    + random_unit_vector(forward_only: bool): Vector3
+    + forward_biased_unit_vector(min_cos_theta: float): Vector3
+    + compute_absorption_probability(material: Material, energy_ev: float, step_length: float): float
+    + sample_step_length(material: Material, energy_ev: float, fast: bool): float
+  }
+}
+
+package "outputs.py" as outputs_py {
+  class Outputs {
+    + load_config_yaml(filename: String): Map
+    + save_path_to_csv(path: List, filename: String): String
+    + save_multiple_paths_to_csv(paths: List, filename: String): String
+    + write_summary_file(
+        filename: String,
+        material: Object,
+        particle: Particle,
+        cfg: Map,
+        html_path: String,
+        csv_path: String,
+        date_time: String,
+        path: List,
+        thermalized_index: int
+      ): void
+  }
+}
+
+package "systems.py" as systems_py {
+  class Systems {
+    + propagate_particle(
+        material: Material,
+        particle: Particle,
+        x_entry: float,
+        x_start: float,
+        dt: float,
+        max_steps: int,
+        temperature: float,
+        thermal_mode: bool,
+        One_Directional_Propagation: bool,
+        min_cos_theta: float,
+        Fast_Ballistic_Propagation: bool
+      ): Tuple
+
+    + propagate_moderated_particle(
+        material: Material,
+        particle: Particle,
+        x_entry: float,
+        x_start: float,
+        dt: float,
+        max_steps: int,
+        temperature: float,
+        One_Directional_Propagation: bool,
+        min_cos_theta: float,
+        Fast_Ballistic_Propagation: bool
+      ): Tuple
+
+    + simulate_multiple_neutrons(
+        material: Material,
+        particle: Particle,
+        simulation_mode: String,
+        n_particles: int,
+        x_entry: float,
+        x_start: float,
+        dt: float,
+        max_steps: int,
+        temperature: float,
+        One_Directional_Propagation: bool,
+        min_cos_theta: float,
+        Fast_Ballistic_Propagation: bool
+      ): List<Tuple>
+
+    + propagate_two_slabs(
+        mat1: Material,
+        mat2: Material,
+        L1: float,
+        L2: float,
+        particle: Particle,
+        x_entry: float,
+        x_start: float,
+        max_steps: int,
+        temperature: float,
+        One_Directional_Propagation: bool,
+        min_cos_theta: float,
+        Fast_Ballistic_Propagation: bool
+      ): Tuple
+  }
+}
+
+package "visualisations.py" as visualisations_py {
+  class Visualiser {
+    + save_interactive_neutron_plot(
+        path: List,
+        material_length_x: float,
+        filename: String,
+        thermalized_index: int
+      ): String
+
+    + save_interactive_neutron_plot_multiple(
+        paths: List,
+        material_length_x: float,
+        filename: String,
+        thermalized_indices: List<int>
+      ): String
+
+    + save_abs_trans_fraction_plot(
+        results: List,
+        output_folder: String,
+        base_filename: String
+      ): String
+
+    + save_interactive_two_slab_plot(
+        path: List,
+        L1: float,
+        L2: float,
+        filename: String,
+        thermalized_index: int
+      ): String
+  }
+}
+
+class Main {
+  + main(): void
+}
+
+' Dependencies / Uses
+Main --> Outputs       : load_config_yaml,\nsave_path_to_csv,\nsave_multiple_paths_to_csv,\nwrite_summary_file
+Main --> Systems       : propagate_particle,\npropagate_moderated_particle,\nsimulate_multiple_neutrons,\npropagate_two_slabs
+Main --> Visualiser    : save_interactive_neutron_plot,\nsave_interactive_neutron_plot_multiple,\nsave_abs_trans_fraction_plot,\nsave_interactive_two_slab_plot
+Main --> Properties    : get_predefined_material
+Main --> simulation_config
+
+systems_py --|> constants_py : uses
+systems_py --|> calculations_py : uses
+visualisations_py --|> constants_py : uses
+visualisations_py --> Particle : uses
+
+@enduml

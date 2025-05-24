@@ -1,0 +1,59 @@
+# -------- Material Selection --------
+material_choice: Graphite  # Options: Water, Graphite, Lead, Air, Borated PE, LightWater, ControlRod or custom
+
+material_length: 10000 # Length of the material in m. Recommended in Water to be ~1 m for thermal_only, ~500 for non_thermal_only, and ~1000 m for full_moderation. 
+
+
+
+# -------- Mutliple Material Selection --------
+
+simulation_two_material: false # Set to true if you want to use two materials in the simulation. Set to false if you want to use a single material. Only works with full_moderation mode.
+material_choice_1: Water
+material_length_1: 300
+material_choice_2: Graphite
+material_length_2: 300
+
+
+# -------- Custom Material Definition --------
+custom_material:
+  name: MyCoolMat
+  cross_section: 0.2
+  density: 2.5
+  length_x: 150
+  absorption_probability: 0.1
+  mass_number: 27
+
+# -------- Particle Setup --------
+particle:
+  name: neutron
+  mass: 1.675e-27 
+  charge: 0
+  initial_velocity: [5e5, 0, 0] # 5e5 just above thermal energy
+
+# -------- Simulation Mode --------
+simulation_mode: full_moderation # Options: thermal_only, non_thermal_only, full_moderation
+
+# -------- Simulation Parameters --------
+simulation:
+  x_entry: 0
+  x_start: -10
+  max_steps: 10000
+  temperature: 293
+  number_of_simulations: 1 #keep at 1 for single particle simulation. HTML Plotting becomes buggy for 10 000 or more simulations.
+
+
+# -------- Feature Flags --------
+flags:
+  One_Directional_Propagation: true # Force the simulation to propagate in one direction only i.e. x-direction
+  Fast_Ballistic_Propagation: true # Use energy dependent mean free path or force to use fixed mean free path. Forced to false for thermal_only mode. Forced to true for non_thermal_only.
+  min_cos_theta: 0.5
+
+# -------- Output --------
+output:
+  
+  save_csv: true
+  save_plot: true
+  save_absorption_transmission: false #only applicable for number_of_simulations > 1
+  output_dir: Propagation_Data # Directory to save output files
+
+
