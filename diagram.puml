@@ -1,7 +1,6 @@
-@startuml SimulationDiagram
+@startuml SimulationNeutronsDiagram
 
-' ' your config file as an artifact
-' artifact "simulation_config.yaml" <<artifact>> as simulation_config
+
 
 package "constants.py" as constants_py {
   class Material {
@@ -30,13 +29,12 @@ package "constants.py" as constants_py {
 
 package "properties.py" as properties_py {
   object Water
-  ' object Graphite
+  object Graphite
   ' object Lead
   ' object Air
   ' object Borated_Polyethylene
   ' object LightWater
   ' object ControlRod
-  object neutron
 
   class Properties {
     + get_predefined_material(name: String): Material
@@ -78,9 +76,7 @@ package "systems.py" as systems_py {
         particle: Particle,
         x_entry: float,
         x_start: float,
-        dt: float,
         max_steps: int,
-        temperature: float,
         thermal_mode: bool,
         One_Directional_Propagation: bool,
         min_cos_theta: float,
@@ -88,31 +84,10 @@ package "systems.py" as systems_py {
       ): Tuple
 
     + propagate_moderated_particle(
-        material: Material,
-        particle: Particle,
-        x_entry: float,
-        x_start: float,
-        dt: float,
-        max_steps: int,
-        temperature: float,
-        One_Directional_Propagation: bool,
-        min_cos_theta: float,
-        Fast_Ballistic_Propagation: bool
       ): Tuple
 
     + simulate_multiple_neutrons(
-        material: Material,
-        particle: Particle,
-        simulation_mode: String,
         n_particles: int,
-        x_entry: float,
-        x_start: float,
-        dt: float,
-        max_steps: int,
-        temperature: float,
-        One_Directional_Propagation: bool,
-        min_cos_theta: float,
-        Fast_Ballistic_Propagation: bool
       ): List<Tuple>
 
     + propagate_two_slabs(
@@ -120,14 +95,6 @@ package "systems.py" as systems_py {
         mat2: Material,
         L1: float,
         L2: float,
-        particle: Particle,
-        x_entry: float,
-        x_start: float,
-        max_steps: int,
-        temperature: float,
-        One_Directional_Propagation: bool,
-        min_cos_theta: float,
-        Fast_Ballistic_Propagation: bool
       ): Tuple
   }
 }
@@ -142,10 +109,6 @@ package "visualisations.py" as visualisations_py {
       ): String
 
     + save_interactive_neutron_plot_multiple(
-        paths: List,
-        material_length_x: float,
-        filename: String,
-        thermalized_indices: List<int>
       ): String
 
     + save_abs_trans_fraction_plot(
@@ -168,7 +131,7 @@ class Main {
   + main(): void
 }
 
-' Dependencies / Uses
+
 Main --> Outputs       : load_config_yaml,\nsave_path_to_csv,\nsave_multiple_paths_to_csv,\nwrite_summary_file
 Main --> Systems       : propagate_particle,\npropagate_moderated_particle,\nsimulate_multiple_neutrons,\npropagate_two_slabs
 Main --> Visualiser    : save_interactive_neutron_plot,\nsave_interactive_neutron_plot_multiple,\nsave_abs_trans_fraction_plot,\nsave_interactive_two_slab_plot

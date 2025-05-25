@@ -1,7 +1,7 @@
 # -------- Material Selection --------
 material_choice: Graphite  # Options: Water, Graphite, Lead, Air, Borated PE, LightWater, ControlRod or custom
 
-material_length: 10000 # Length of the material in m. Recommended in Water to be ~1 m for thermal_only, ~500 for non_thermal_only, and ~1000 m for full_moderation. 
+material_length: 600 # Length of the material in m. Recommended in Water to be ~1 m for thermal_only, ~500 for non_thermal_only, and ~1000 m for full_moderation. 
 
 
 
@@ -44,7 +44,7 @@ simulation:
 
 # -------- Feature Flags --------
 flags:
-  One_Directional_Propagation: true # Force the simulation to propagate in one direction only i.e. x-direction
+  One_Directional_Propagation: false # Force the simulation to propagate in one direction only i.e. x-direction
   Fast_Ballistic_Propagation: true # Use energy dependent mean free path or force to use fixed mean free path. Forced to false for thermal_only mode. Forced to true for non_thermal_only.
   min_cos_theta: 0.5
 
